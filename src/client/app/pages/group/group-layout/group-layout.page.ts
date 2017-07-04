@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { animate, trigger, state, style, transition } from '@angular/animations';
 import { ActivatedRoute, Router, NavigationEnd, RoutesRecognized } from '@angular/router';
 import { GroupService, MostUsedService } from './../../../services';
+import { CusHttpService } from './../../../services/custom-http.service';
 
 declare let $: any;
 declare let _: any;
@@ -33,10 +34,15 @@ export class GroupLayoutPage {
 
   private selectedGroupId: any;
   private groups: Array<any>;
+  private filterGroups: Array<any>;  
+  private currentGroups: Array<any>;
+  private currentJobs: Array<any>;
+  private assignTableModalOptions:any = {};
 
   private routerEventSubscriber: any;
 
   constructor(
+    private _http: CusHttpService,
     private _route: ActivatedRoute,
     private _router: Router,
     private _groupService: GroupService,
@@ -45,10 +51,10 @@ export class GroupLayoutPage {
   }
 
   ngOnInit() {
-    this.groups = this._route.snapshot.data['groups'];
-    if (this.groups.length > 0) {
-      this.selectedGroupId = this.groups[0].ID;
-    }
+    this.groups = this._route.snapshot.data['groups'].data.worklocation;
+    // if (this.groups.length > 0) {
+    //   this.selectedGroupId = this.groups[0].ID;
+    // }
     let guidRex = /^[0-9a-z]{8,8}-[0-9a-z]{4,4}-[0-9a-z]{4,4}-[0-9a-z]{4,4}-[0-9a-z]{12,12}$/;
     this.routerEventSubscriber = this._router.events.subscribe(s => {
       if (s instanceof NavigationEnd) {
@@ -64,6 +70,13 @@ export class GroupLayoutPage {
         }
       }
     });
+
+    this.assignTableModalOptions = {
+      show: false,
+      title: 'Assign Table',
+      hideCloseBtn: true,
+      hideFooter: true
+    };
   }
 
   ngOnDestroy() {
@@ -99,5 +112,27 @@ export class GroupLayoutPage {
     } else {
       this.selectedGroupId = groupId;
     }
+  }
+
+  private showAssignTable(){
+    this.assignTableModalOptions.show = true;
+    let locationName = this.currentGroups[0].location;
+    let url = `http://10.16.75.24:3000/cloudtask/v2/locations/${locationName}/jobsalloc`;
+    this._http.get(url)
+        .then((res: any) => {
+          let jobs = res.json() || [];
+          console.log(jobs);
+          this.currentJobs = jobs.data.alloc.data;
+          console.log(this.currentJobs);
+          let currentServerName = this.currentGroups[0].name;
+          this.currentJobs.map(job => job.name = currentServerName);
+        })
+  }
+
+    private selectNode(groupId: any) {
+      this.selectedGroupId = groupId;
+      this.currentGroups = this.groups[groupId].server;
+      this.currentGroups.map(group => group.location = this.groups[groupId].location);
+      // this.currentJobs = this.groups[groupId].group;
   }
 }

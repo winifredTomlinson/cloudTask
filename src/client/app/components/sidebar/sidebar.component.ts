@@ -74,6 +74,7 @@ export class SideBarComponent {
   }
 
   private fixSidebar() {
+        console.log('111111111111111111111111');    
     $(this.sideBar).slimScroll({ destroy: true }).height("auto");
     $(this.sideBar).slimscroll({
       height: ($(window).height() - $(".main-header").height()) + "px",

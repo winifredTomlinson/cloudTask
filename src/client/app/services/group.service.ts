@@ -26,7 +26,8 @@ export class GroupService {
     if (this.groups[type] && this.groups[type].length > 0 && !nocache) {
       return Promise.resolve(_.cloneDeep(this.groups[type]));
     }
-    let url = `${this.baseUrl}?type=${type}`;
+    //let url = `${this.baseUrl}?type=${type}`;
+    let url = `http://10.16.75.24:3000/cloudtask/v2/locations`;    
     return new Promise((resolve, reject) => {
       this._http.get(url)
         .then(res => {

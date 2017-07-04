@@ -5,6 +5,7 @@ import { GroupResolve, SystemConfigResolve } from './resolves';
 import {
   RootLayoutPage,
   DashboardPage,
+  JobInfoPage,
   LoginPage,
   GroupLayoutPage, GroupOverviewPage, ContainerListPage, ContainerDetailPage, ContainerNewPage, ContainerClonePage, ContainerMonitorPage, ContainerLogPage,
   ClusterLayoutPage, ClusterOverviewPage, ClusterContainerEditPage, ClusterContainerInfoPage,
@@ -23,7 +24,8 @@ let routes: Routes = [
     resolve: { config: SystemConfigResolve },
     children: [
       { path: '', component: DashboardPage },
-      { path: 'dashboard', redirectTo: '/' },
+      { path: 'dashboard', component: DashboardPage },
+      { path: 'job', component: JobInfoPage },
       {
         path: 'group', component: GroupLayoutPage, canActivateChild: [IsGroupOwner],
         resolve: { groups: GroupResolve },

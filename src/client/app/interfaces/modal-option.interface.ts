@@ -6,6 +6,7 @@ export interface IModalOptions {
   hideCloseBtn: boolean;
   hideContent: boolean;
   hideActions: boolean;
+  hideFooter:boolean;
   title: string;
   hideCancelBtn: boolean;
   cancelBtn: string;

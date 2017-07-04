@@ -1,0 +1,74 @@
+  <div class="routerOutlet">
+    <div class="navbar navbar-static-top"> 
+        <ul class="breadcrumb">
+            <li class="active">
+                Add Job 
+            </li>
+        </ul>
+    </div>
+    <section class="content">
+        <div class="page-content">
+            <div class="form-group">
+                <label class="control-label">Job Name</label>
+                <input type="text" class="form-control" name="jobName" value="">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Description</label>
+                <div>
+                    <textarea class="form-control" name="description" rows="5" cols="" minlength="5" maxlength="500"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Runtime</label>
+                         <select class="form-control">
+                          <option value="Select Runtime">Select Runtime</option>  
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Group</label>
+                        <select class="form-control">
+                          <option value="Select Group">Select Group</option>  
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Command</label>
+                <input type="text" class="form-control" name="jobName" value="">
+            </div>
+            <div class="form-group">
+                <label class="control-label">Job File</label>
+                <div class="well well-sm">
+                    <div class="form-group">
+                        <label class="control-label">Upload :</label>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="system-guide-neg-file-input">
+                                    <label class="ace-file-input">
+                                        <input type="file" name="jobFile" accept="application/gzip, .gz">
+                                        <span class="ace-file-container" data-title="Choose">
+                                            <span class="ace-file-name" data-title="No File ...">
+                                                <i class=" ace-icon fa fa-upload"></i>
+                                            </span>
+                                        </span>
+                                        <a class="remove" href="#">
+                                            <i class=" ace-icon fa fa-times"></i>
+                                        </a>
+                                    </label>
+                                </div>
+                                <p class="text-danger margin-top-5" style="margin-bottom: 0">
+                                    Please compress your folder as <strong>tar.gz</strong> archive and make sure the size is less than <strong>50MB</strong>.
+                                </p>
+                                <!-- ngIf: isClone && !job.jobFile.name -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  </div>

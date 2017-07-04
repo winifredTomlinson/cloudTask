@@ -2,33 +2,65 @@
   <div class="group-tree-panel" *ngIf="groups?.length > 0">
     <div #groupTreePanel>
       <ul class="group-tree">
-        <li class="treeview" *ngFor="let group of groups;" [class.active]="group.ID == selectedGroupId">
-          <a (click)="toggleMenus(group.ID)">
-            <span>{{ group.Name }}</span>
-            <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-          </span>
+        <li class="treeview" *ngFor="let group of groups,let i = index" [class.active]="i == selectedGroupId">
+          <a (click)="selectNode(i)">
+            <span>{{ group.location }}</span>
           </a>
-          <ul class="treeview-menu menu-open" [@groupMenuState]="group.ID == selectedGroupId ? 'active' : 'inactive'">
-            <li routerLinkActive="active">
-              <a [routerLink]="['/group', group.ID, 'overview']">
-                Overview
-              </a>
-            </li>
-            <li [hb-router-active]="{'url':'/group/'+group.ID+'/'+(server.IP || server.Name), 'cls': 'active'}" *ngFor="let server of group.Servers">
-              <a [routerLink]="['/group', group.ID, server.IP || server.Name, 'overview']" (click)="addToMostUsed(group.ID, server)">
-                <i class="fa fa-circle-o"></i>{{ server.Name || server.IP }}
-              </a>
-            </li>
-          </ul>
         </li>
       </ul>
     </div>
   </div>
   <div class="routerOutlet">
-    <router-outlet></router-outlet>
+    <section class="content-header">
+      <h1> Servers Infor <i class="fa fa-info-circle" style="cursor: pointer;" (click)=showAssignTable()></i></h1>
+        <hb-modal [options]="assignTableModalOptions">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Job Name</th>
+                <th>Job ID</th>
+                <th>Version</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of currentJobs;">
+                <td>{{ item.name }}</td>
+                <td>{{ item.jobname }}</td>
+                <td>{{ item.jobid }}</td>
+                <td>{{ item.version }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </hb-modal>
+    </section>
+    <section class="content">
+      <div class="box no-border">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>IP</th>
+                <th>OS</th>
+                <th>Platform</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of currentGroups;">
+                <td>{{ item.name }}</td>
+                <td>{{ item.ipaddr }}</td>
+                <td><i class="fa fa-windows" [class.fa-linux]="item.os == 'linux'"></i> {{ item.os }}</td>
+                <td>{{ item.platform }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
   </div>
 </div>
+
 
 <section class="content" *ngIf="!groups?.length">
   <div class="error-page flex-display flex-align-center">

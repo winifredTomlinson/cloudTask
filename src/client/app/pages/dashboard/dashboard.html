@@ -1,4 +1,4 @@
-<div class="dashboard">
+<!--<div class="dashboard">
   <section class="content-header">
     <h1> Dashboard </h1>
   </section>
@@ -50,4 +50,111 @@
       </div>
     </div>
   </section>
+</div>
+-->
+
+<div class="group-wrapper">
+  <div class="group-tree-panel" #secondSidebar>
+    <div class="sidebar" #groupTreePanel>
+      <ul class="group-tree">
+        <li class="treeview" *ngFor="let item of locations;let i = index" [class.active]="i == selectedGroupId">
+          <a (click)="toggleMenus(i)">
+            <span>{{ item.location }}</span>
+            <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+          </a>
+          <ul class="treeview-menu menu-open" [@groupMenuState]="i == selectedGroupId ? 'active' : 'inactive'">
+            <li *ngFor="let group of groups[selectedGroupId]">
+              <a [routerLink]="['/dashboard']" (click)="getJobs(group.id)">
+                <i class="fa fa-circle-o"></i>{{ group.name }}
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="routerOutlet">
+    <section class="content-header">
+      <div class="form-group">
+        <a [routerLink]="['/job']" class="btn btn-sm btn-flat bg-olive">
+          <i class="fa fa-plus"></i> Create New Job
+        </a>
+        <a class="btn btn-sm btn-flat bg-aqua">
+          <i class="fa fa-reply"></i>  Import
+        </a>
+        <a class="btn btn-sm btn-flat bg-gray">
+          <i class="fa fa-upload"></i> Batch Update File
+        </a>
+        <a class="btn btn-sm btn-flat bg-gray" (click)="refresh()">
+          <i class="fa fa-refresh"></i>
+        </a>
+      </div>
+    </section>
+    <section class="content">
+      <div class="box no-border">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Job Name</th>
+                <th>Next Run Time</th>
+                <th>Last Run Time</th>
+                <th>Last Result</th>
+                <th>Runtime</th>
+                <th>Edit User</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let job of jobs;let i = index">
+              <tr class="tr-row" (click)="toggleDetailBox(i)">
+                <td style="text-align: center;"></td>
+                <td>{{ job.name }}</td>
+                <td>{{ job.nextat | date:'yyyy/MM/dd HH:mm:ss' }}</td>
+                <td>{{ job.execat | date:'yyyy/MM/dd HH:mm:ss' }}</td>
+                <td></td>
+                <td>{{ job.location }}</td>
+                <td>{{ job.edituser }}</td>
+              </tr>
+              <tr [class.tr-detail]="i == detailId" style="display:none">
+                <td colspan="8">
+                  <div class="detail-box">
+                    <div class="row">
+                      <div class="col-sm-2"><strong>CreateAt:</strong></div>
+                      <div class="col-sm-4">{{ job.createat | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                      <div class="col-sm-2"><strong>CreateBy:</strong></div>
+                      <div class="col-sm-4">{{ job.createuser }}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-2"><strong>EditAt:</strong></div>
+                      <div class="col-sm-4">{{ job.editat | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+                      <div class="col-sm-2"><strong>EditBy:</strong></div>
+                      <div class="col-sm-4">{{ job.edituser }}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-2"><strong>Description:</strong></div>
+                      <div class="col-sm-10">{{ job.description }}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-2"><strong>Schedule(s):</strong></div>
+                      <div class="col-sm-10">{{ job.description }}</div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <a class="btn btn-sm btn-flat bg-olive">START</a>
+                        <a class="btn btn-sm btn-flat bg-aqua">EDIT</a>
+                        <a class="btn btn-sm btn-flat bg-red">Disable</a>
+                        <a class="btn btn-sm btn-flat bg-gray">Clone</a>
+                        <a class="btn btn-sm btn-flat bg-gray">View Logs</a>
+                        <a class="btn btn-sm btn-flat bg-gray">Download</a>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+  </div>
 </div>

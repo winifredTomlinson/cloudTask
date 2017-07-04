@@ -7,26 +7,12 @@ import { EventNotifyService, EventType } from './../../services';
 
 declare let $: any;
 @Component({
-  selector: 'dashboard',
-  styleUrls: ['./dashboard.css'],
-  templateUrl: './dashboard.html',
-    animations: [
-    trigger('groupMenuState', [
-      state('inactive', style({
-        height: 0,
-        display: 'block'
-      })),
-      state('active', style({
-        height: '*',
-        display: 'block'
-      })),
-      transition('inactive => active', animate('200ms ease-in')),
-      transition('active => inactive', animate('200ms ease-out'))
-    ])
-  ]
+  selector: 'job-info',
+  templateUrl: './job-info.html',
+  styleUrls: ['./job-info.css'],
 })
 
-export class DashboardPage {
+export class JobInfoPage {
   @ViewChild('secondSidebar')
   private secondSidebar: ElementRef;
   private sideBar: HTMLElement;
@@ -63,18 +49,6 @@ export class DashboardPage {
           this.groups = this.locations.map((item) => item.group);
         })
     this.selectedGroupId = 0;
-    this._eventNotifyService.subscribe(EventType.SidebarMini, (state: any) => {
-      if (window.innerWidth < 767) {
-        state = !state;
-      }
-      if (state) {
-        $(this.sideBar).slimScroll({ destroy: true }).height("auto");
-        this.sideBar.style.overflow = null;
-      } else {
-        this.fixSidebar();
-      }
-    });
-
 
     let systemSubscriber = this._systemConfigService.ConfigSubject.subscribe(data => {
       this.systemConfig = data;
@@ -88,49 +62,6 @@ export class DashboardPage {
 
     this.mostUsedServers = this._mostUsedService.get();
   }
-
-  ngAfterViewInit() {
-    this.sideBar = this.secondSidebar.nativeElement.querySelector('.sidebar');
-    $(window, ".wrapper").resize(() => {
-      this.fixSidebar();
-    });
-    this.fixSidebar();
-  }
-
-  private fixSidebar() {
-    console.log('=============----------------===========');    
-    $(this.sideBar).slimScroll({ destroy: true }).height("auto");
-    $(this.sideBar).slimscroll({
-      height: ($(window).height() - $(".main-header").height()) + "px",
-      color: "rgba(255,255,255,0.7)",
-      size: "3px"
-    });
-  }
-
-    private toggleMenus(groupIndex: any) {
-      if (this.selectedGroupId === groupIndex) {
-        this.selectedGroupId = null;
-      } else {
-        this.selectedGroupId = groupIndex;
-      }
-    }
-    private getJobs(groupId: any){
-      let url = `${this.baseUrl}/groups/${groupId}/jobs`;
-      this._http.get(url)
-        .then((res: any) => {
-          let jobs = res.json() || [];
-          this.jobs = jobs.data.job;
-          console.log(this.jobs);
-        })
-    }
-
-    private toggleDetailBox(groupIndex: any) {
-      if (this.detailId === groupIndex) {
-        this.detailId = null;
-      } else {
-        this.detailId = groupIndex;
-      }
-    }
 
     private refresh(){
       

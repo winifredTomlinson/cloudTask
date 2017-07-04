@@ -43,10 +43,11 @@ export class ModalComponent implements OnInit {
   ngOnInit() { }
 
   private getStyleClass(): string {
-    let cls = 'show modal';
+    let cls = 'modal fade in';
     if (this.options.style) {
       cls += ` modal-${this.options.style}`;
     }
+      $('.modal').attr('style', 'display:block');
     return cls;
   }
 

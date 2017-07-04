@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RootLayoutPage } from './root-layout/root-layout.page';
 import { DashboardPage } from './dashboard/dashboard.page';
+import { JobInfoPage } from './job/job-info.page';
 import { LoginPage } from './login/login.page';
 import { CLUSTERPAGES } from './cluster';
 import { GROUPPAGES } from './group'
@@ -12,6 +13,7 @@ import { COMMONPAGES } from './common';
 
 export * from './root-layout/root-layout.page';
 export * from './dashboard/dashboard.page';
+export * from './job/job-info.page';
 export * from './login/login.page';
 export * from './group';
 export * from './cluster';
@@ -24,6 +26,7 @@ export * from './common';
 let Pages: Array<any> = [
   RootLayoutPage,
   DashboardPage,
+  JobInfoPage,
   LoginPage,
   ...GROUPPAGES,
   ...CLUSTERPAGES,
